@@ -18,14 +18,13 @@ import traceback
 import typing
 from urllib.parse import urlencode
 
-import discord
-from discord.ext import commands
+import disnake
+from disnake.ext import commands
 
 from jishaku.features.baseclass import Feature
 from jishaku.flags import Flags
 from jishaku.math import mean_stddev
 from jishaku.modules import ExtensionConverter
-from jishaku.repl import inspections
 from jishaku.types import ContextA
 
 
@@ -44,31 +43,40 @@ class ManagementFeature(Feature):
 
         extensions: typing.Iterable[typing.List[str]] = extensions  # type: ignore
 
-        paginator = commands.Paginator(prefix='', suffix='')
+        paginator = commands.Paginator(prefix="", suffix="")
 
         # 'jsk reload' on its own just reloads jishaku
-        if ctx.invoked_with == 'reload' and not extensions:
-            extensions = [['jishaku']]
+        if ctx.invoked_with == "reload" and not extensions:
+            extensions = [["jishaku"]]
 
         for extension in itertools.chain(*extensions):
             method, icon = (
-                (self.bot.reload_extension, "\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}")
-                if extension in self.bot.extensions else
-                (self.bot.load_extension, "\N{INBOX TRAY}")
+                (
+                    self.bot.reload_extension,
+                    "\N{CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS}",
+                )
+                if extension in self.bot.extensions
+                else (self.bot.load_extension, "\N{INBOX TRAY}")
             )
 
             try:
-                await discord.utils.maybe_coroutine(method, extension)
+                await disnake.utils.maybe_coroutine(method, extension)
             except Exception as exc:  # pylint: disable=broad-except
                 if isinstance(exc, commands.ExtensionFailed) and exc.__cause__:
                     cause = exc.__cause__
-                    traceback_data = ''.join(traceback.format_exception(type(cause), cause, cause.__traceback__, 8))
+                    traceback_data = "".join(
+                        traceback.format_exception(
+                            type(cause), cause, cause.__traceback__, 8
+                        )
+                    )
                 else:
-                    traceback_data = ''.join(traceback.format_exception(type(exc), exc, exc.__traceback__, 2))
+                    traceback_data = "".join(
+                        traceback.format_exception(type(exc), exc, exc.__traceback__, 2)
+                    )
 
                 paginator.add_line(
                     f"{icon}\N{WARNING SIGN} `{extension}`\n```py\n{traceback_data}\n```",
-                    empty=True
+                    empty=True,
                 )
             else:
                 paginator.add_line(f"{icon} `{extension}`", empty=True)
@@ -86,18 +94,22 @@ class ManagementFeature(Feature):
 
         extensions: typing.Iterable[typing.List[str]] = extensions  # type: ignore
 
-        paginator = commands.Paginator(prefix='', suffix='')
+        paginator = commands.Paginator(prefix="", suffix="")
         icon = "\N{OUTBOX TRAY}"
 
         for extension in itertools.chain(*extensions):
             try:
-                await discord.utils.maybe_coroutine(self.bot.unload_extension, extension)
+                await disnake.utils.maybe_coroutine(
+                    self.bot.unload_extension, extension
+                )
             except Exception as exc:  # pylint: disable=broad-except
-                traceback_data = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__, 2))
+                traceback_data = "".join(
+                    traceback.format_exception(type(exc), exc, exc.__traceback__, 2)
+                )
 
                 paginator.add_line(
                     f"{icon}\N{WARNING SIGN} `{extension}`\n```py\n{traceback_data}\n```",
-                    empty=True
+                    empty=True,
                 )
             else:
                 paginator.add_line(f"{icon} `{extension}`", empty=True)
@@ -111,7 +123,11 @@ class ManagementFeature(Feature):
         Logs this bot out.
         """
 
-        ellipse_character = "\N{BRAILLE PATTERN DOTS-356}" if Flags.USE_BRAILLE_J else "\N{HORIZONTAL ELLIPSIS}"
+        ellipse_character = (
+            "\N{BRAILLE PATTERN DOTS-356}"
+            if Flags.USE_BRAILLE_J
+            else "\N{HORIZONTAL ELLIPSIS}"
+        )
 
         await ctx.send(f"Logging out now{ellipse_character}")
         await ctx.bot.close()
@@ -124,8 +140,8 @@ class ManagementFeature(Feature):
         If the names of permissions are provided, they are requested as part of the invite.
         """
 
-        scopes = ('bot', 'applications.commands')
-        permissions = discord.Permissions()
+        scopes = ("bot", "applications.commands")
+        permissions = disnake.Permissions()
 
         for perm in perms:
             if perm not in dict(permissions):
@@ -138,7 +154,7 @@ class ManagementFeature(Feature):
         query = {
             "client_id": application_info.id,
             "scope": "+".join(scopes),
-            "permissions": permissions.value
+            "permissions": permissions.value,
         }
 
         return await ctx.send(
@@ -163,7 +179,10 @@ class ManagementFeature(Feature):
         for _ in range(6):
             # First generate the text
             text = "Calculating round-trip time...\n\n"
-            text += "\n".join(f"Reading {index + 1}: {reading * 1000:.2f}ms" for index, reading in enumerate(api_readings))
+            text += "\n".join(
+                f"Reading {index + 1}: {reading * 1000:.2f}ms"
+                for index, reading in enumerate(api_readings)
+            )
 
             if api_readings:
                 average, stddev = mean_stddev(api_readings)
@@ -199,140 +218,177 @@ class ManagementFeature(Feature):
 
     SLASH_COMMAND_ERROR = re.compile(r"In ((?:\d+\.[a-z]+\.?)+)")
 
-    @Feature.Command(parent="jsk", name="sync")
-    async def jsk_sync(self, ctx: ContextA, *targets: str):
-        """
-        Sync global or guild application commands to Discord.
-        """
-
-        if not self.bot.application_id:
-            await ctx.send("Cannot sync when application info not fetched")
-            return
-
-        paginator = commands.Paginator(prefix='', suffix='')
-
-        guilds_set: typing.Set[typing.Optional[int]] = set()
-        for target in targets:
-            if target == '$':
-                guilds_set.add(None)
-            elif target == '*':
-                guilds_set |= set(self.bot.tree._guild_commands.keys())  # type: ignore  # pylint: disable=protected-access
-            elif target == '.':
-                if ctx.guild:
-                    guilds_set.add(ctx.guild.id)
-                else:
-                    await ctx.send("Can't sync guild commands without guild information")
-                    return
-            else:
-                try:
-                    guilds_set.add(int(target))
-                except ValueError as error:
-                    raise commands.BadArgument(f"{target} is not a valid guild ID") from error
-
-        if not targets:
-            guilds_set.add(None)
-
-        guilds: typing.List[typing.Optional[int]] = list(guilds_set)
-        guilds.sort(key=lambda g: (g is not None, g))
-
-        for guild in guilds:
-            slash_commands = self.bot.tree._get_all_commands(  # type: ignore  # pylint: disable=protected-access
-                guild=discord.Object(guild) if guild else None
-            )
-            translator = getattr(self.bot.tree, 'translator', None)
-            needs_dpy_2_4_signature_changes = discord.version_info.major >= 2 and discord.version_info.minor >= 4
-
-            if needs_dpy_2_4_signature_changes:
-                if translator:
-                    payload = [await command.get_translated_payload(self.bot.tree, translator) for command in slash_commands]
-                else:
-                    payload = [command.to_dict(self.bot.tree) for command in slash_commands]
-            else:
-                if translator:
-                    payload = [await command.get_translated_payload(translator) for command in slash_commands]
-                else:
-                    payload = [command.to_dict() for command in slash_commands]
-
-            try:
-                if guild is None:
-                    data = await self.bot.http.bulk_upsert_global_commands(self.bot.application_id, payload=payload)
-                else:
-                    data = await self.bot.http.bulk_upsert_guild_commands(self.bot.application_id, guild, payload=payload)
-
-                synced = [
-                    discord.app_commands.AppCommand(data=d, state=ctx._state)  # type: ignore  # pylint: disable=protected-access,no-member
-                    for d in data
-                ]
-
-            except discord.HTTPException as error:
-                # It's diagnosis time
-                error_lines: typing.List[str] = []
-                for line in str(error).split("\n"):
-                    error_lines.append(line)
-
-                    try:
-                        match = self.SLASH_COMMAND_ERROR.match(line)
-                        if not match:
-                            continue
-
-                        pool = slash_commands
-                        selected_command = None
-                        name = ""
-                        parts = match.group(1).split('.')
-                        assert len(parts) % 2 == 0
-
-                        for part_index in range(0, len(parts), 2):
-                            index = int(parts[part_index])
-                            # prop = parts[part_index + 1]
-
-                            if pool:
-                                # If the pool exists, this should be a subcommand
-                                selected_command = pool[index]  # type: ignore
-                                name += selected_command.name + " "
-
-                                if hasattr(selected_command, '_children'):  # type: ignore
-                                    pool = list(selected_command._children.values())  # type: ignore  # pylint: disable=protected-access
-                                else:
-                                    pool = None
-                            else:
-                                # Otherwise, the pool has been exhausted, and this likely is referring to a parameter
-                                param = list(selected_command._params.keys())[index]  # type: ignore  # pylint: disable=protected-access
-                                name += f"(parameter: {param}) "
-
-                        if selected_command:
-                            to_inspect: typing.Any = None
-
-                            if hasattr(selected_command, 'callback'):  # type: ignore
-                                to_inspect = selected_command.callback  # type: ignore
-                            elif isinstance(selected_command, commands.Cog):
-                                to_inspect = type(selected_command)
-
-                            try:
-                                error_lines.append(''.join([
-                                    "\N{MAGNET} This is likely caused by: `",
-                                    name,
-                                    "` at ",
-                                    str(inspections.file_loc_inspection(to_inspect)),  # type: ignore
-                                    ":",
-                                    str(inspections.line_span_inspection(to_inspect)),  # type: ignore
-                                ]))
-                            except Exception:  # pylint: disable=broad-except
-                                error_lines.append(f"\N{MAGNET} This is likely caused by: `{name}`")
-
-                    except Exception as diag_error:  # pylint: disable=broad-except
-                        error_lines.append(f"\N{MAGNET} Couldn't determine cause: {type(diag_error).__name__}: {diag_error}")
-
-                error_text = '\n'.join(error_lines)
-
-                if guild:
-                    paginator.add_line(f"\N{WARNING SIGN} `{guild}`: {error_text}", empty=True)
-                else:
-                    paginator.add_line(f"\N{WARNING SIGN} Global: {error_text}", empty=True)
-            else:
-                if guild:
-                    paginator.add_line(f"\N{SATELLITE ANTENNA} `{guild}` Synced {len(synced)} guild commands", empty=True)
-                else:
-                    paginator.add_line(f"\N{SATELLITE ANTENNA} Synced {len(synced)} global commands", empty=True)
-
-        for page in paginator.pages:
-            await ctx.send(page)
+    # @Feature.Command(parent="jsk", name="sync")
+    # async def jsk_sync(self, ctx: ContextA, *targets: str):
+    #     """
+    #     Sync global or guild application commands to Discord.
+    #     """
+    #
+    #     if not self.bot.application_id:
+    #         await ctx.send("Cannot sync when application info not fetched")
+    #         return
+    #
+    #     paginator = commands.Paginator(prefix="", suffix="")
+    #
+    #     guilds_set: typing.Set[typing.Optional[int]] = set()
+    #     for target in targets:
+    #         if target == "$":
+    #             guilds_set.add(None)
+    #         elif target == "*":
+    #             guilds_set |= set(self.bot.tree._guild_commands.keys())  # type: ignore  # pylint: disable=protected-access
+    #         elif target == ".":
+    #             if ctx.guild:
+    #                 guilds_set.add(ctx.guild.id)
+    #             else:
+    #                 await ctx.send(
+    #                     "Can't sync guild commands without guild information"
+    #                 )
+    #                 return
+    #         else:
+    #             try:
+    #                 guilds_set.add(int(target))
+    #             except ValueError as error:
+    #                 raise commands.BadArgument(
+    #                     f"{target} is not a valid guild ID"
+    #                 ) from error
+    #
+    #     if not targets:
+    #         guilds_set.add(None)
+    #
+    #     guilds: typing.List[typing.Optional[int]] = list(guilds_set)
+    #     guilds.sort(key=lambda g: (g is not None, g))
+    #
+    #     for guild in guilds:
+    #         self.bot.slash_commands
+    #         slash_commands = self.bot.tree._get_all_commands(  # type: ignore  # pylint: disable=protected-access
+    #             guild=disnake.Object(guild) if guild else None
+    #         )
+    #         translator = getattr(self.bot.tree, "translator", None)
+    #         needs_dpy_2_4_signature_changes = (
+    #             discord.version_info.major >= 2 and discord.version_info.minor >= 4
+    #         )
+    #
+    #         if needs_dpy_2_4_signature_changes:
+    #             if translator:
+    #                 payload = [
+    #                     await command.get_translated_payload(self.bot.tree, translator)
+    #                     for command in slash_commands
+    #                 ]
+    #             else:
+    #                 payload = [
+    #                     command.to_dict(self.bot.tree) for command in slash_commands
+    #                 ]
+    #         else:
+    #             if translator:
+    #                 payload = [
+    #                     await command.get_translated_payload(translator)
+    #                     for command in slash_commands
+    #                 ]
+    #             else:
+    #                 payload = [command.to_dict() for command in slash_commands]
+    #
+    #         try:
+    #             if guild is None:
+    #                 data = await self.bot.http.bulk_upsert_global_commands(
+    #                     self.bot.application_id, payload=payload
+    #                 )
+    #             else:
+    #                 data = await self.bot.http.bulk_upsert_guild_commands(
+    #                     self.bot.application_id, guild, payload=payload
+    #                 )
+    #
+    #             synced = [
+    #                 discord.app_commands.AppCommand(data=d, state=ctx._state)  # type: ignore  # pylint: disable=protected-access,no-member
+    #                 for d in data
+    #             ]
+    #
+    #         except discord.HTTPException as error:
+    #             # It's diagnosis time
+    #             error_lines: typing.List[str] = []
+    #             for line in str(error).split("\n"):
+    #                 error_lines.append(line)
+    #
+    #                 try:
+    #                     match = self.SLASH_COMMAND_ERROR.match(line)
+    #                     if not match:
+    #                         continue
+    #
+    #                     pool = slash_commands
+    #                     selected_command = None
+    #                     name = ""
+    #                     parts = match.group(1).split(".")
+    #                     assert len(parts) % 2 == 0
+    #
+    #                     for part_index in range(0, len(parts), 2):
+    #                         index = int(parts[part_index])
+    #                         # prop = parts[part_index + 1]
+    #
+    #                         if pool:
+    #                             # If the pool exists, this should be a subcommand
+    #                             selected_command = pool[index]  # type: ignore
+    #                             name += selected_command.name + " "
+    #
+    #                             if hasattr(selected_command, "_children"):  # type: ignore
+    #                                 pool = list(selected_command._children.values())  # type: ignore  # pylint: disable=protected-access
+    #                             else:
+    #                                 pool = None
+    #                         else:
+    #                             # Otherwise, the pool has been exhausted, and this likely is referring to a parameter
+    #                             param = list(selected_command._params.keys())[index]  # type: ignore  # pylint: disable=protected-access
+    #                             name += f"(parameter: {param}) "
+    #
+    #                     if selected_command:
+    #                         to_inspect: typing.Any = None
+    #
+    #                         if hasattr(selected_command, "callback"):  # type: ignore
+    #                             to_inspect = selected_command.callback  # type: ignore
+    #                         elif isinstance(selected_command, commands.Cog):
+    #                             to_inspect = type(selected_command)
+    #
+    #                         try:
+    #                             error_lines.append(
+    #                                 "".join(
+    #                                     [
+    #                                         "\N{MAGNET} This is likely caused by: `",
+    #                                         name,
+    #                                         "` at ",
+    #                                         str(inspections.file_loc_inspection(to_inspect)),  # type: ignore
+    #                                         ":",
+    #                                         str(inspections.line_span_inspection(to_inspect)),  # type: ignore
+    #                                     ]
+    #                                 )
+    #                             )
+    #                         except Exception:  # pylint: disable=broad-except
+    #                             error_lines.append(
+    #                                 f"\N{MAGNET} This is likely caused by: `{name}`"
+    #                             )
+    #
+    #                 except Exception as diag_error:  # pylint: disable=broad-except
+    #                     error_lines.append(
+    #                         f"\N{MAGNET} Couldn't determine cause: {type(diag_error).__name__}: {diag_error}"
+    #                     )
+    #
+    #             error_text = "\n".join(error_lines)
+    #
+    #             if guild:
+    #                 paginator.add_line(
+    #                     f"\N{WARNING SIGN} `{guild}`: {error_text}", empty=True
+    #                 )
+    #             else:
+    #                 paginator.add_line(
+    #                     f"\N{WARNING SIGN} Global: {error_text}", empty=True
+    #                 )
+    #         else:
+    #             if guild:
+    #                 paginator.add_line(
+    #                     f"\N{SATELLITE ANTENNA} `{guild}` Synced {len(synced)} guild commands",
+    #                     empty=True,
+    #                 )
+    #             else:
+    #                 paginator.add_line(
+    #                     f"\N{SATELLITE ANTENNA} Synced {len(synced)} global commands",
+    #                     empty=True,
+    #                 )
+    #
+    #     for page in paginator.pages:
+    #         await ctx.send(page)

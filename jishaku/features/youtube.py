@@ -13,7 +13,7 @@ The jishaku youtube-dl command.
 
 import typing
 
-import discord
+import disnake
 
 from jishaku.types import ContextA
 
@@ -26,13 +26,13 @@ from jishaku.features.baseclass import Feature
 from jishaku.features.voice import VoiceFeature
 
 BASIC_OPTS = {
-    'format': 'webm[abr>0]/bestaudio/best',
-    'prefer_ffmpeg': True,
-    'quiet': True
+    "format": "webm[abr>0]/bestaudio/best",
+    "prefer_ffmpeg": True,
+    "quiet": True,
 }
 
 
-class BasicYouTubeDLSource(discord.FFmpegPCMAudio):
+class BasicYouTubeDLSource(disnake.FFmpegPCMAudio):
     """
     Basic audio source for youtube_dl-compatible URLs.
     """
@@ -40,7 +40,7 @@ class BasicYouTubeDLSource(discord.FFmpegPCMAudio):
     def __init__(self, url: str, download: bool = False):
         ytdl = youtube_dl.YoutubeDL(BASIC_OPTS)
         info: typing.Dict[str, typing.Any] = ytdl.extract_info(url, download=download)  # type: ignore
-        super().__init__(info['url'])
+        super().__init__(info["url"])
 
 
 class YouTubeFeature(Feature):
@@ -48,7 +48,9 @@ class YouTubeFeature(Feature):
     Feature containing the youtube-dl command
     """
 
-    @Feature.Command(parent="jsk_voice", name="youtube_dl", aliases=["youtubedl", "ytdl", "yt"])
+    @Feature.Command(
+        parent="jsk_voice", name="youtube_dl", aliases=["youtubedl", "ytdl", "yt"]
+    )
     async def jsk_vc_youtube_dl(self, ctx: ContextA, *, url: str):
         """
         Plays audio from youtube_dl-compatible sources.
@@ -59,14 +61,14 @@ class YouTubeFeature(Feature):
 
         voice: discord.VoiceProtocol = ctx.guild.voice_client  # type: ignore
 
-        if isinstance(voice, discord.VoiceClient):
+        if isinstance(voice, disnake.VoiceClient):
             if voice.is_playing():
                 voice.stop()
 
             # remove embed maskers if present
             url = url.lstrip("<").rstrip(">")
 
-            voice.play(discord.PCMVolumeTransformer(BasicYouTubeDLSource(url)))
+            voice.play(disnake.PCMVolumeTransformer(BasicYouTubeDLSource(url)))
             await ctx.send(f"Playing in {voice.channel.name}.")
         else:
             await ctx.send(f"Can't play on a custom VoiceProtocol: {voice}")

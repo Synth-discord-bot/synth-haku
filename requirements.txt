@@ -1,0 +1,10 @@
+jishaku~=2.6.0a504+g0c16ddc.master
+click~=8.1.7
+import_expression~=2.1.0.post1
+typing_extensions~=4.12.2
+aiohttp~=3.10.5
+tabulate~=0.9.0
+braceexpand~=0.1.7
+disnake~=2.9.2
+importlib_metadata>=8.0.0
+line_profiler>=4.1.3

@@ -14,7 +14,7 @@ Functions for modifying or interfacing with discord.py models.
 import copy
 import typing
 
-import discord
+import disnake
 
 from jishaku.types import ContextT
 
@@ -22,8 +22,8 @@ from jishaku.types import ContextT
 async def copy_context_with(
     ctx: ContextT,
     *,
-    author: typing.Optional[typing.Union[discord.Member, discord.User]] = None,
-    channel: typing.Optional[discord.TextChannel] = None,
+    author: typing.Optional[typing.Union[disnake.Member, disnake.User]] = None,
+    channel: typing.Optional[disnake.TextChannel] = None,
     **kwargs: typing.Any
 ) -> ContextT:
     """
@@ -31,7 +31,7 @@ async def copy_context_with(
     """
 
     # copy the message and update the attributes
-    alt_message: discord.Message = copy.copy(ctx.message)
+    alt_message: disnake.Message = copy.copy(ctx.message)
     alt_message._update(kwargs)  # type: ignore # pylint: disable=protected-access
 
     if author is not None:

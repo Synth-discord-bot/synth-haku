@@ -14,7 +14,7 @@ The Jishaku debugging and diagnostics cog implementation.
 import inspect
 import typing
 
-from discord.ext import commands
+from disnake.ext import commands
 
 from jishaku.features.baseclass import Feature
 from jishaku.features.filesystem import FilesystemFeature
@@ -34,7 +34,17 @@ __all__ = (
     "setup",
 )
 
-STANDARD_FEATURES = (VoiceFeature, GuildFeature, FilesystemFeature, InvocationFeature, ShellFeature, SQLFeature, PythonFeature, ManagementFeature, RootCommand)
+STANDARD_FEATURES = (
+    VoiceFeature,
+    GuildFeature,
+    FilesystemFeature,
+    InvocationFeature,
+    ShellFeature,
+    SQLFeature,
+    PythonFeature,
+    ManagementFeature,
+    RootCommand,
+)
 
 OPTIONAL_FEATURES: typing.List[typing.Type[Feature]] = []
 
@@ -57,7 +67,7 @@ async def async_setup(bot: commands.Bot):
     The async setup function defining the jishaku.cog and jishaku extensions.
     """
 
-    await bot.add_cog(Jishaku(bot=bot))  # type: ignore
+    bot.add_cog(Jishaku(bot=bot))  # type: ignore
 
 
 def setup(bot: commands.Bot):  # pylint: disable=inconsistent-return-statements

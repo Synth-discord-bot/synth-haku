@@ -19,11 +19,13 @@ from jishaku.paginators import FilePaginator, WrappedPaginator
 
 def test_file_paginator():
 
-    base_text = inspect.cleandoc("""
+    base_text = inspect.cleandoc(
+        """
     #!/usr/bin/env python
     # -*- coding: utf-8 -*-
     pass  # \u3088\u308d\u3057\u304f
-    """)
+    """
+    )
 
     # test standard encoding
     pages = FilePaginator(BytesIO(base_text.encode("utf-8"))).pages
@@ -38,11 +40,13 @@ def test_file_paginator():
     assert pages[0] == "```python\n# -*- coding: utf-8 -*-\n```"
 
     # test reception to encoding hint
-    base_text = inspect.cleandoc("""
+    base_text = inspect.cleandoc(
+        """
     #!/usr/bin/env python
     # -*- coding: cp932 -*-
     pass  # \u3088\u308d\u3057\u304f
-    """)
+    """
+    )
 
     pages = FilePaginator(BytesIO(base_text.encode("cp932"))).pages
 
@@ -55,11 +59,15 @@ def test_file_paginator():
 
     # test with wrong encoding hint
     with pytest.raises(UnicodeDecodeError):
-        FilePaginator(BytesIO("-*- coding: utf-8 -*-\n\u3088\u308d\u3057\u304f".encode("cp932")))
+        FilePaginator(
+            BytesIO("-*- coding: utf-8 -*-\n\u3088\u308d\u3057\u304f".encode("cp932"))
+        )
 
     # test OOB
     with pytest.raises(ValueError):
-        FilePaginator(BytesIO("one\ntwo\nthree\nfour".encode('utf-8')), line_span=(-1, 20))
+        FilePaginator(
+            BytesIO("one\ntwo\nthree\nfour".encode("utf-8")), line_span=(-1, 20)
+        )
 
 
 def test_wrapped_paginator():
@@ -70,5 +78,6 @@ def test_wrapped_paginator():
     paginator = WrappedPaginator(max_size=200, include_wrapped=False)
     paginator.add_line("abcde " * 50)
     assert len(paginator.pages) == 2
+
 
 # TODO: Write test for interactions-based paginator interface
