@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.models
+synthhaku.models
 ~~~~~~~~~~~~~~
 
 Functions for modifying or interfacing with discord.py models.
@@ -16,7 +16,7 @@ import typing
 
 import disnake
 
-from jishaku.types import ContextT
+from synthhaku.types import ContextT
 
 
 async def copy_context_with(

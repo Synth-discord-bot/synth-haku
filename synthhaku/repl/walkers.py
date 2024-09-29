@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.repl.walkers
+synthhaku.repl.walkers
 ~~~~~~~~~~~~~~~~~~~~
 
 AST walkers for code transformation and analysis.

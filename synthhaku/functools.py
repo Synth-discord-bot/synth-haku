@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.functools
+synthhaku.functools
 ~~~~~~~~~~~~~~~~~
 
 Function-related tools for Jishaku.
@@ -38,7 +38,7 @@ def executor_function(
         from io import BytesIO
         from PIL import Image
 
-        from synth-haku.functools import executor_function
+        from synthhaku.functools import executor_function
 
 
         @executor_function

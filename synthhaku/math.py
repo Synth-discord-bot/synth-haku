@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.math
+synthhaku.math
 ~~~~~~~~~~~~
 
-Constants and functions related to math and statistical processing for synth-haku
+Constants and functions related to math and statistical processing for synthhaku
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.

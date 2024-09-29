@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.exception_handling
+synthhaku.exception_handling
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Functions and classes for handling exceptions.
@@ -21,7 +21,7 @@ import disnake
 from disnake.ext import commands
 from typing_extensions import ParamSpec
 
-from jishaku.flags import Flags
+from synthhaku.flags import Flags
 
 
 async def send_traceback(

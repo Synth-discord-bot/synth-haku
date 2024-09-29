@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.__main__
+synthhaku.__main__
 ~~~~~~~~~~~~~~~~~
 
 This is an entrypoint that sets up a basic Bot with Jishaku.
@@ -31,7 +31,7 @@ LOG_FORMAT: logging.Formatter = logging.Formatter(
 LOG_STREAM: logging.Handler = logging.StreamHandler(stream=sys.stdout)
 LOG_STREAM.setFormatter(LOG_FORMAT)
 
-LOGGER = logging.getLogger("synth-haku.__main__")
+LOGGER = logging.getLogger("synthhaku.__main__")
 
 
 async def entry(bot: commands.Bot, *args: typing.Any, **kwargs: typing.Any):
@@ -41,8 +41,8 @@ async def entry(bot: commands.Bot, *args: typing.Any, **kwargs: typing.Any):
 
     LOGGER.critical("Beginning async context")
     async with bot:
-        LOGGER.critical("Loading synth-haku")
-        bot.load_extension("synth-haku")
+        LOGGER.critical("Loading synthhaku")
+        bot.load_extension("synthhaku")
 
         for extension in bot.extensions_to_load:  # type: ignore
             extension: str
@@ -99,14 +99,14 @@ def entrypoint(
     skip_wait: bool = False,
 ):
     """
-    Entrypoint accessible through `python -m synth-haku <TOKEN>`
+    Entrypoint accessible through `python -m synthhaku <TOKEN>`
 
     Specify intents using + and - before the token
     E.g.:
-        -m synth-haku -- +all -message_content <TOKEN>
+        -m synthhaku -- +all -message_content <TOKEN>
     Arguments are applied in order.
     You can also set log level and output to a file:
-        -m synth-haku --log-level INFO --log-file bot.log -- +all <TOKEN>
+        -m synthhaku --log-level INFO --log-file bot.log -- +all <TOKEN>
     """
 
     logger = logging.getLogger()

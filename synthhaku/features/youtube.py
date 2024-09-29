@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features.youtube
+synthhaku.features.youtube
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The synth-haku youtube-dl command.
+The synthhaku youtube-dl command.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -15,15 +15,15 @@ import typing
 
 import disnake
 
-from jishaku.types import ContextA
+from synthhaku.types import ContextA
 
 try:
     import yt_dlp as youtube_dl  # type: ignore
 except ImportError:
     import youtube_dl  # type: ignore
 
-from jishaku.features.baseclass import Feature
-from jishaku.features.voice import VoiceFeature
+from synthhaku.features.baseclass import Feature
+from synthhaku.features.voice import VoiceFeature
 
 BASIC_OPTS = {
     "format": "webm[abr>0]/bestaudio/best",
@@ -49,9 +49,9 @@ class YouTubeFeature(Feature):
     """
 
     @Feature.Command(
-        parent="jsk_voice", name="youtube_dl", aliases=["youtubedl", "ytdl", "yt"]
+        parent="snt_voice", name="youtube_dl", aliases=["youtubedl", "ytdl", "yt"]
     )
-    async def jsk_vc_youtube_dl(self, ctx: ContextA, *, url: str):
+    async def snt_vc_youtube_dl(self, ctx: ContextA, *, url: str):
         """
         Plays audio from youtube_dl-compatible sources.
         """

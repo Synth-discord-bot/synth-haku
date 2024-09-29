@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.paginators
+synthhaku.paginators
 ~~~~~~~~~~~~~~~~~~
 
 Paginator-related tools and interfaces for Jishaku.
@@ -22,9 +22,9 @@ from disnake import (
 )
 from disnake.ext import commands
 
-from jishaku.flags import Flags
-from jishaku.hljs import get_language, guess_file_traits
-from jishaku.types import BotT, ContextA
+from synthhaku.flags import Flags
+from synthhaku.hljs import get_language, guess_file_traits
+from synthhaku.types import BotT, ContextA
 
 if typing.TYPE_CHECKING:
     from disnake.types.components import ButtonComponent
@@ -279,7 +279,7 @@ class PaginatorInterface(
 
         from discord.ext import commands
 
-        from synth-haku.paginators import PaginatorInterface
+        from synthhaku.paginators import PaginatorInterface
 
         # In a command somewhere...
             # Paginators need to have a reduced max_size to accommodate the extra text added by the interface.

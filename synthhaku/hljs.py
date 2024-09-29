@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.hljs
+synthhaku.hljs
 ~~~~~~~~~~~~
 
 Constants and functions related to syntax highlighting with highlight.js

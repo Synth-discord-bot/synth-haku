@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.codeblocks
+synthhaku.codeblocks
 ~~~~~~~~~~~~~~~~~~
 
 Converters for detecting and obtaining codeblock content

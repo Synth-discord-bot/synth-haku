@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.types
+synthhaku.types
 ~~~~~~~~~~~~~
 
 Declarations for type checking

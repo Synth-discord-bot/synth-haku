@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.repl.repl_builtins
+synthhaku.repl.repl_builtins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Builtin functions and variables within Jishaku REPL contexts.
@@ -16,7 +16,7 @@ import typing
 import aiohttp
 import disnake
 
-from jishaku.types import ContextA
+from synthhaku.types import ContextA
 
 
 async def http_get_bytes(*args: typing.Any, **kwargs: typing.Any) -> bytes:

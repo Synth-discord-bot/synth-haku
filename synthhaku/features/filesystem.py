@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features.filesystem
+synthhaku.features.filesystem
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The synth-haku filesystem-related commands.
+The synthhaku filesystem-related commands.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -19,11 +19,11 @@ import re
 import aiohttp
 import disnake
 
-from jishaku.exception_handling import ReplResponseReactor
-from jishaku.features.baseclass import Feature
-from jishaku.hljs import get_language, guess_file_traits
-from jishaku.paginators import PaginatorInterface, WrappedFilePaginator, use_file_check
-from jishaku.types import ContextA
+from synthhaku.exception_handling import ReplResponseReactor
+from synthhaku.features.baseclass import Feature
+from synthhaku.hljs import get_language, guess_file_traits
+from synthhaku.paginators import PaginatorInterface, WrappedFilePaginator, use_file_check
+from synthhaku.types import ContextA
 
 
 class FilesystemFeature(Feature):
@@ -33,8 +33,8 @@ class FilesystemFeature(Feature):
 
     __cat_line_regex = re.compile(r"(?:\.\/+)?(.+?)(?:#L?(\d+)(?:\-L?(\d+))?)?$")
 
-    @Feature.Command(parent="jsk", name="cat")
-    async def jsk_cat(self, ctx: ContextA, argument: str):
+    @Feature.Command(parent="snt", name="cat")
+    async def snt_cat(self, ctx: ContextA, argument: str):
         """
         Read out a file, using syntax highlighting if detected.
 
@@ -101,12 +101,12 @@ class FilesystemFeature(Feature):
         except ValueError as exc:
             return await ctx.send(f"`{path}`: Couldn't read this file, {exc}")
 
-    @Feature.Command(parent="jsk", name="curl")
-    async def jsk_curl(self, ctx: ContextA, url: str):
+    @Feature.Command(parent="snt", name="curl")
+    async def snt_curl(self, ctx: ContextA, url: str):
         """
         Download and display a text file from the internet.
 
-        This command is similar to jsk cat, but accepts a URL.
+        This command is similar to snt cat, but accepts a URL.
         """
 
         # remove embed maskers if present

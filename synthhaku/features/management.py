@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features.management
+synthhaku.features.management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The synth-haku extension and bot control commands.
+The synthhaku extension and bot control commands.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -21,13 +21,13 @@ from urllib.parse import urlencode
 import disnake
 from disnake.ext import commands
 
-from jishaku.features.baseclass import Feature
-from jishaku.flags import Flags
-from jishaku.math import mean_stddev
-from jishaku.modules import ExtensionConverter
-from jishaku.types import ContextA
+from synthhaku.features.baseclass import Feature
+from synthhaku.flags import Flags
+from synthhaku.math import mean_stddev
+from synthhaku.modules import ExtensionConverter
+from synthhaku.types import ContextA
 
-from jishaku.paginators import WrappedPaginator, PaginatorInterface
+from synthhaku.paginators import WrappedPaginator, PaginatorInterface
 
 
 class ManagementFeature(Feature):
@@ -35,8 +35,8 @@ class ManagementFeature(Feature):
     Feature containing the extension and bot control commands
     """
 
-    @Feature.Command(parent="jsk", name="load", aliases=["reload"])
-    async def jsk_load(self, ctx: ContextA, *extensions: ExtensionConverter):  # type: ignore
+    @Feature.Command(parent="snt", name="load", aliases=["reload"])
+    async def snt_load(self, ctx: ContextA, *extensions: ExtensionConverter):  # type: ignore
         """
         Loads or reloads the given extension names.
 
@@ -47,9 +47,9 @@ class ManagementFeature(Feature):
 
         paginator = commands.Paginator(prefix="", suffix="")
 
-        # 'jsk reload' on its own just reloads synth-haku
+        # 'snt reload' on its own just reloads synthhaku
         if ctx.invoked_with == "reload" and not extensions:
-            extensions = [["synth-haku"]]
+            extensions = [["synthhaku"]]
 
         for extension in itertools.chain(*extensions):
             method, icon = (
@@ -86,8 +86,8 @@ class ManagementFeature(Feature):
         for page in paginator.pages:
             await ctx.send(page)
 
-    @Feature.Command(parent="jsk", name="unload")
-    async def jsk_unload(self, ctx: ContextA, *extensions: ExtensionConverter):  # type: ignore
+    @Feature.Command(parent="snt", name="unload")
+    async def snt_unload(self, ctx: ContextA, *extensions: ExtensionConverter):  # type: ignore
         """
         Unloads the given extension names.
 
@@ -119,8 +119,8 @@ class ManagementFeature(Feature):
         for page in paginator.pages:
             await ctx.send(page)
 
-    @Feature.Command(parent="jsk", name="shutdown", aliases=["logout"])
-    async def jsk_shutdown(self, ctx: ContextA):
+    @Feature.Command(parent="snt", name="shutdown", aliases=["logout"])
+    async def snt_shutdown(self, ctx: ContextA):
         """
         Logs this bot out.
         """
@@ -134,8 +134,8 @@ class ManagementFeature(Feature):
         await ctx.send(f"Logging out now{ellipse_character}")
         await ctx.bot.close()
 
-    @Feature.Command(parent="jsk", name="invite")
-    async def jsk_invite(self, ctx: ContextA, *perms: str):
+    @Feature.Command(parent="snt", name="invite")
+    async def snt_invite(self, ctx: ContextA, *perms: str):
         """
         Retrieve the invite URL for this bot.
 
@@ -163,8 +163,8 @@ class ManagementFeature(Feature):
             f"Link to invite this bot:\n<https://discordapp.com/oauth2/authorize?{urlencode(query, safe='+')}>"
         )
 
-    @Feature.Command(parent="jsk", name="rtt", aliases=["ping"])
-    async def jsk_rtt(self, ctx: ContextA):
+    @Feature.Command(parent="snt", name="rtt", aliases=["ping"])
+    async def snt_rtt(self, ctx: ContextA):
         """
         Calculates Round-Trip Time to the API.
         """
@@ -220,10 +220,10 @@ class ManagementFeature(Feature):
 
     SLASH_COMMAND_ERROR = re.compile(r"In ((?:\d+\.[a-z]+\.?)+)")
 
-    @Feature.Command(parent="jsk", name="help", aliases=["commands"])
-    async def jsk_help(self, ctx: commands.Context):
+    @Feature.Command(parent="snt", name="help", aliases=["commands"])
+    async def snt_help(self, ctx: commands.Context):
         """
-        Отправляет интерактивный список всех команд в категории jsk.
+        Отправляет интерактивный список всех команд в категории snt.
         """
         
         commands_list = self.get_commands()

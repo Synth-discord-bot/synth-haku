@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku converter test
+synthhaku converter test
 ~~~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2021 Devon (Gorialis) R
@@ -11,7 +11,7 @@ jishaku converter test
 
 import inspect
 
-from jishaku.codeblocks import Codeblock, codeblock_converter
+from synthhaku.codeblocks import Codeblock, codeblock_converter
 
 
 def test_codeblock_converter():

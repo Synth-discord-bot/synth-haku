@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.repl.scope
+synthhaku.repl.scope
 ~~~~~~~~~~~~~~~~~~
 
 The Scope class and functions relating to it.

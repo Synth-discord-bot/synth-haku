@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku.inspections test
+synthhaku.inspections test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2021 Devon (Gorialis) R
@@ -15,7 +15,7 @@ import typing
 import disnake
 import pytest
 
-from jishaku.repl.inspections import all_inspections
+from synthhaku.repl.inspections import all_inspections
 from tests.utils import sentinel
 
 

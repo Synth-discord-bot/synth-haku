@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features.invocation
+synthhaku.features.invocation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The synth-haku command invocation related commands.
+The synthhaku command invocation related commands.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -22,11 +22,11 @@ import typing
 import disnake
 from disnake.ext import commands
 
-from jishaku.exception_handling import ReplResponseReactor
-from jishaku.features.baseclass import Feature
-from jishaku.models import copy_context_with
-from jishaku.paginators import PaginatorInterface, WrappedPaginator, use_file_check
-from jishaku.types import ContextA, ContextT
+from synthhaku.exception_handling import ReplResponseReactor
+from synthhaku.features.baseclass import Feature
+from synthhaku.models import copy_context_with
+from synthhaku.paginators import PaginatorInterface, WrappedPaginator, use_file_check
+from synthhaku.types import ContextA, ContextT
 
 UserIDConverter = commands.IDConverter[typing.Union[disnake.Member, disnake.User]]
 ChannelIDConverter = commands.IDConverter[
@@ -99,11 +99,11 @@ class InvocationFeature(Feature):
     OVERRIDE_SIGNATURE = typing.Union[SlimUserConverter, SlimChannelConverter]
 
     @Feature.Command(
-        parent="jsk",
+        parent="snt",
         name="override",
         aliases=["execute", "exec", "override!", "execute!", "exec!"],
     )
-    async def jsk_override(
+    async def snt_override(
         self,
         ctx: ContextT,
         overrides: commands.Greedy[OVERRIDE_SIGNATURE],
@@ -130,7 +130,7 @@ class InvocationFeature(Feature):
                 if ctx.guild:
                     # Try to upgrade to a Member instance
                     # This used to be done by a Union converter, but doing it like this makes
-                    #  the command more compatible with chaining, e.g. `jsk in .. jsk su ..`
+                    #  the command more compatible with chaining, e.g. `snt in .. snt su ..`
                     target_member = None
 
                     with contextlib.suppress(disnake.HTTPException):
@@ -161,13 +161,13 @@ class InvocationFeature(Feature):
         await alt_ctx.command.invoke(alt_ctx)
         return
 
-    @Feature.Command(parent="jsk", name="repeat")
-    async def jsk_repeat(self, ctx: ContextT, times: int, *, command_string: str):
+    @Feature.Command(parent="snt", name="repeat")
+    async def snt_repeat(self, ctx: ContextT, times: int, *, command_string: str):
         """
         Runs a command multiple times in a row.
 
         This acts like the command was invoked several times manually, so it obeys cooldowns.
-        You can use this in conjunction with `jsk sudo` to bypass this.
+        You can use this in conjunction with `snt sudo` to bypass this.
         """
 
         with self.submit(ctx):  # allow repeats to be cancelled
@@ -187,8 +187,8 @@ class InvocationFeature(Feature):
 
                 await alt_ctx.command.reinvoke(alt_ctx)
 
-    @Feature.Command(parent="jsk", name="debug", aliases=["dbg"])
-    async def jsk_debug(self, ctx: ContextT, *, command_string: str):
+    @Feature.Command(parent="snt", name="debug", aliases=["dbg"])
+    async def snt_debug(self, ctx: ContextT, *, command_string: str):
         """
         Run a command timing execution and catching exceptions.
         """
@@ -213,8 +213,8 @@ class InvocationFeature(Feature):
             f"Command `{alt_ctx.command.qualified_name}` finished in {end - start:.3f}s."
         )
 
-    @Feature.Command(parent="jsk", name="source", aliases=["src"])
-    async def jsk_source(self, ctx: ContextA, *, command_name: str):
+    @Feature.Command(parent="snt", name="source", aliases=["src"])
+    async def snt_source(self, ctx: ContextA, *, command_name: str):
         """
         Displays the source code for a command.
         """

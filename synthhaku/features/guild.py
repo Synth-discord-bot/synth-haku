@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features.guild
+synthhaku.features.guild
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The synth-haku guild-related commands.
+The synthhaku guild-related commands.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -15,8 +15,8 @@ import typing
 
 import disnake
 
-from jishaku.features.baseclass import Feature
-from jishaku.types import ContextA
+from synthhaku.features.baseclass import Feature
+from synthhaku.types import ContextA
 
 T = typing.TypeVar("T")
 
@@ -66,8 +66,8 @@ class GuildFeature(Feature):
         for i in range(0, len(array), chunk_size):
             yield array[i : i + chunk_size]
 
-    @Feature.Command(parent="jsk", name="permtrace")
-    async def jsk_permtrace(
+    @Feature.Command(parent="snt", name="permtrace")
+    async def snt_permtrace(
         self,
         ctx: ContextA,
         channel: typing.Union[disnake.TextChannel, disnake.VoiceChannel],

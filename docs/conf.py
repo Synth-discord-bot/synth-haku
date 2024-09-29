@@ -21,7 +21,7 @@
 
 from jishaku.meta import __version__
 
-project = "jishaku"
+project = "synthhaku"
 copyright = "2021, Gorialis"
 author = "Gorialis"
 
@@ -148,7 +148,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "jishaku.tex", "jishaku Documentation", "Gorialis", "manual"),
+    (master_doc, "synthhaku.tex", "synthhaku Documentation", "Gorialis", "manual"),
 ]
 
 
@@ -156,7 +156,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "jishaku", "jishaku Documentation", [author], 1)]
+man_pages = [(master_doc, "synthhaku", "synthhaku Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -167,10 +167,10 @@ man_pages = [(master_doc, "jishaku", "jishaku Documentation", [author], 1)]
 texinfo_documents = [
     (
         master_doc,
-        "jishaku",
-        "jishaku Documentation",
+        "synthhaku",
+        "synthhaku Documentation",
         author,
-        "jishaku",
+        "synthhaku",
         "One line description of project.",
         "Miscellaneous",
     ),

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku subclassing functionality test
+synthhaku subclassing functionality test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2021 Devon (Gorialis) R
@@ -65,15 +65,15 @@ from tests import utils
             {},
         ),
         # Test that the original still works after the load test
-        ("jishaku", "Jishaku", "Module was loaded", commands.Bot, {}),
+        ("synthhaku", "Jishaku", "Module was loaded", commands.Bot, {}),
         (
-            "jishaku",
+            "synthhaku",
             "Jishaku",
             "Module was loaded",
             commands.Bot,
             {"shard_id": 0, "shard_count": 2},
         ),
-        ("jishaku", "Jishaku", "Module was loaded", commands.AutoShardedBot, {}),
+        ("synthhaku", "Jishaku", "Module was loaded", commands.AutoShardedBot, {}),
     ],
     ids=[
         "Feature-based subclass (Bot, unsharded)",

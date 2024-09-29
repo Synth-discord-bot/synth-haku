@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku.models tests
+synthhaku.models tests
 ~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2021 Devon (Gorialis) R
@@ -11,7 +11,7 @@ jishaku.models tests
 
 import pytest
 
-from jishaku.models import copy_context_with
+from synthhaku.models import copy_context_with
 from tests import utils
 
 

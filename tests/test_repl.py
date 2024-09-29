@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku.repl internal test
+synthhaku.repl internal test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2021 Devon (Gorialis) R
@@ -15,7 +15,7 @@ import typing
 
 import pytest
 
-from jishaku.repl import AsyncCodeExecutor, Scope, get_parent_var, get_var_dict_from_ctx
+from synthhaku.repl import AsyncCodeExecutor, Scope, get_parent_var, get_var_dict_from_ctx
 from tests.utils import mock_ctx
 
 

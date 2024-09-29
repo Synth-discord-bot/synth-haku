@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.repl.compilation
+synthhaku.repl.compilation
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Constants, functions and classes related to classifying, compiling and executing Python code.
@@ -19,9 +19,9 @@ import typing
 
 import import_expression  # type: ignore
 
-from jishaku.functools import AsyncSender
-from jishaku.repl.scope import Scope
-from jishaku.repl.walkers import KeywordTransformer
+from synthhaku.functools import AsyncSender
+from synthhaku.repl.scope import Scope
+from synthhaku.repl.walkers import KeywordTransformer
 
 CORO_CODE = """
 async def _repl_coroutine({0}):
@@ -32,9 +32,9 @@ async def _repl_coroutine({0}):
     from disnake.ext import commands
 
     try:
-        import synth-haku
+        import synthhaku
     except ImportError:
-        synth-haku = None  # keep working even if in panic recovery mode
+        synthhaku = None  # keep working even if in panic recovery mode
 
     try:
         pass

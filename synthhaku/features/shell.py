@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features.shell
+synthhaku.features.shell
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The synth-haku shell commands.
+The synthhaku shell commands.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -23,13 +23,13 @@ import disnake
 from disnake import ui
 from disnake.ext import commands
 
-from jishaku.codeblocks import Codeblock, codeblock_converter
-from jishaku.exception_handling import ReplResponseReactor
-from jishaku.features.baseclass import Feature
-from jishaku.flags import Flags
-from jishaku.paginators import PaginatorInterface, WrappedPaginator
-from jishaku.shell import ShellReader
-from jishaku.types import ContextA
+from synthhaku.codeblocks import Codeblock, codeblock_converter
+from synthhaku.exception_handling import ReplResponseReactor
+from synthhaku.features.baseclass import Feature
+from synthhaku.flags import Flags
+from synthhaku.paginators import PaginatorInterface, WrappedPaginator
+from synthhaku.shell import ShellReader
+from synthhaku.types import ContextA
 
 SCAFFOLD_FOLDER = pathlib.Path(__file__).parent / "scaffolds"
 
@@ -113,11 +113,11 @@ class ShellFeature(Feature):
                 )
 
     @Feature.Command(
-        parent="jsk",
+        parent="snt",
         name="shell",
         aliases=["bash", "sh", "powershell", "ps1", "ps", "cmd", "terminal"],
     )
-    async def jsk_shell(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
+    async def snt_shell(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
         """
         Executes statements in the system shell.
 
@@ -161,21 +161,21 @@ class ShellFeature(Feature):
 
                 await interface.add_line(f"\n[status] Return code {reader.close_code}")
 
-    @Feature.Command(parent="jsk", name="git")
-    async def jsk_git(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
+    @Feature.Command(parent="snt", name="git")
+    async def snt_git(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
         """
-        Shortcut for 'jsk sh git'. Invokes the system shell.
+        Shortcut for 'snt sh git'. Invokes the system shell.
         """
 
         if typing.TYPE_CHECKING:
             argument: Codeblock = argument  # type: ignore
 
-        return await ctx.invoke(self.jsk_shell, argument=Codeblock(argument.language, "git " + argument.content))  # type: ignore
+        return await ctx.invoke(self.snt_shell, argument=Codeblock(argument.language, "git " + argument.content))  # type: ignore
 
-    @Feature.Command(parent="jsk", name="pip")
-    async def jsk_pip(self, ctx: commands.Context, *, argument: codeblock_converter):  # type: ignore
+    @Feature.Command(parent="snt", name="pip")
+    async def snt_pip(self, ctx: commands.Context, *, argument: codeblock_converter):  # type: ignore
         """
-        Shortcut for 'jsk sh pip'. Invokes the system shell.
+        Shortcut for 'snt sh pip'. Invokes the system shell.
         """
 
         if typing.TYPE_CHECKING:
@@ -194,13 +194,13 @@ class ShellFeature(Feature):
                 executable = str(test)
                 break
 
-        return await ctx.invoke(self.jsk_shell,
+        return await ctx.invoke(self.snt_shell,
                                 argument=Codeblock(argument.language, f"{executable} {argument.content}"))  # type: ignore
 
     if shutil.which("node") and shutil.which("npm"):
 
-        @Feature.Command(parent="jsk", name="node")
-        async def jsk_node(self, ctx: commands.Context, *, argument: codeblock_converter):  # type: ignore
+        @Feature.Command(parent="snt", name="node")
+        async def snt_node(self, ctx: commands.Context, *, argument: codeblock_converter):  # type: ignore
             """
             Shortcut for scaffolding and executing 'npm run'. Only exists if the executables are detected.
             """
@@ -210,17 +210,17 @@ class ShellFeature(Feature):
 
             requirements = "".join(
                 f"npm install {match} && "
-                for match in re.findall("// jsk require: (.+)", argument.content)
+                for match in re.findall("// snt require: (.+)", argument.content)
             )
 
             with scaffold("npm", content=argument.content) as directory:
-                return await ctx.invoke(self.jsk_shell,
+                return await ctx.invoke(self.snt_shell,
                                         argument=Codeblock("js", f"cd {directory} && {requirements}npm run main"))  # type: ignore
 
     if shutil.which("pyright"):
 
-        @Feature.Command(parent="jsk", name="pyright")
-        async def jsk_pyright(self, ctx: commands.Context, *, argument: codeblock_converter):  # type: ignore
+        @Feature.Command(parent="snt", name="pyright")
+        async def snt_pyright(self, ctx: commands.Context, *, argument: codeblock_converter):  # type: ignore
             """
             Shortcut for scaffolding and executing 'pyright main.c'. Only exists if the executables are detected.
             """
@@ -229,13 +229,13 @@ class ShellFeature(Feature):
                 argument: Codeblock = argument  # type: ignore
 
             with scaffold("pyright", content=argument.content) as directory:
-                return await ctx.invoke(self.jsk_shell,
+                return await ctx.invoke(self.snt_shell,
                                         argument=Codeblock("js", f"cd {directory} && pyright main.c"))  # type: ignore
 
     if shutil.which("rustc") and shutil.which("cargo"):
 
-        @Feature.Command(parent="jsk", name="rustc")
-        async def jsk_rustc(self, ctx: commands.Context, *, argument: codeblock_converter):  # type: ignore
+        @Feature.Command(parent="snt", name="rustc")
+        async def snt_rustc(self, ctx: commands.Context, *, argument: codeblock_converter):  # type: ignore
             """
             Shortcut for scaffolding and executing 'cargo run'. Only exists if the executables are detected.
             """
@@ -244,19 +244,19 @@ class ShellFeature(Feature):
                 argument: Codeblock = argument  # type: ignore
 
             requirements = "\n".join(
-                re.findall("// jsk require: (.+)", argument.content)
+                re.findall("// snt require: (.+)", argument.content)
             )
 
             with scaffold(
                     "cargo", content=argument.content, requirements=requirements
             ) as directory:
-                return await ctx.invoke(self.jsk_shell,
+                return await ctx.invoke(self.snt_shell,
                                         argument=Codeblock("rust", f"cd {directory} && cargo run"))  # type: ignore
 
     if shutil.which("g++") and shutil.which("gcc"):
 
-        @Feature.Command(parent="jsk", name="cxx")
-        async def jsk_gcc(self, ctx: commands.Context, *, argument: codeblock_converter):  # type: ignore
+        @Feature.Command(parent="snt", name="cxx")
+        async def snt_gcc(self, ctx: commands.Context, *, argument: codeblock_converter):  # type: ignore
             """
             Shortcut for scaffolding and executing 'c main.c -o main'. Only exists if the executables are detected.
             """
@@ -265,11 +265,11 @@ class ShellFeature(Feature):
                 argument: Codeblock = argument  # type: ignore
 
             with scaffold("c", content=argument.content) as directory:
-                return await ctx.invoke(self.jsk_shell, argument=Codeblock("c",
+                return await ctx.invoke(self.snt_shell, argument=Codeblock("c",
                                                                            f"cd {directory} && c main.c -o main && ./main"))  # type: ignore
 
-        @Feature.Command(parent="jsk", name="cpp")
-        async def jsk_cpp(self, ctx: commands.Context, *, argument: codeblock_converter, program_arguments: str = None):
+        @Feature.Command(parent="snt", name="cpp")
+        async def snt_cpp(self, ctx: commands.Context, *, argument: codeblock_converter, program_arguments: str = None):
             """
             Shortcut for scaffolding and executing 'g++ main.cpp -o main'. Only exists if the executables are detected.
             """
@@ -295,5 +295,5 @@ class ShellFeature(Feature):
                 run_command = f"./main {program_arguments}"
 
                 # Выполняем компиляцию, затем запуск
-                return await ctx.invoke(self.jsk_shell,
+                return await ctx.invoke(self.snt_shell,
                                         argument=Codeblock("bash", f"{compile_command} && {run_command}"))  # type: ignore

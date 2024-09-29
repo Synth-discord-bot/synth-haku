@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.repl.inspections
+synthhaku.repl.inspections
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Inspections performable on Python objects.

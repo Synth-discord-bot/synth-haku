@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku manual specialist test
+synthhaku manual specialist test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This test checks that blockformats look OK and function correctly.
@@ -14,9 +14,9 @@ You should run it in a bash-like shell (that supports ANSI codes).
 
 import asyncio
 
-from jishaku.formatting import MultilineFormatter
-from jishaku.repl import AsyncCodeExecutor
-from jishaku.repl.disassembly import get_adaptive_spans
+from synthhaku.formatting import MultilineFormatter
+from synthhaku.repl import AsyncCodeExecutor
+from synthhaku.repl.disassembly import get_adaptive_spans
 
 CODE = '''
 import math

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.repl.disassembly
+synthhaku.repl.disassembly
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Functions pertaining to the disassembly of Python code
@@ -20,7 +20,7 @@ import typing
 import import_expression  # type: ignore
 import opcode
 
-from jishaku.repl.scope import Scope
+from synthhaku.repl.scope import Scope
 
 CORO_CODE = """
 import asyncio
@@ -28,7 +28,7 @@ import asyncio
 import disnake
 from disnake.ext import commands
 
-import synth-haku
+import synthhaku
 
 async def _repl_coroutine({0}):
     pass
@@ -39,7 +39,7 @@ def wrap_code(code: str, args: str = "") -> ast.Module:
     """
     Wraps code for disassembly.
 
-    This is similar in function to the synth-haku.repl.compilation equivalent,
+    This is similar in function to the synthhaku.repl.compilation equivalent,
     but due to the different structure required for clean disassemblies,
     it's implemented separately here.
     """

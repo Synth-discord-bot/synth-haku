@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features.voice
+synthhaku.features.voice
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The synth-haku core voice-related commands.
+The synthhaku core voice-related commands.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -17,8 +17,8 @@ import disnake
 import disnake.opus
 import disnake.voice_client
 
-from jishaku.features.baseclass import Feature
-from jishaku.types import ContextA
+from synthhaku.features.baseclass import Feature
+from synthhaku.types import ContextA
 
 
 class VoiceFeature(Feature):
@@ -87,13 +87,13 @@ class VoiceFeature(Feature):
             )
 
     @Feature.Command(
-        parent="jsk",
+        parent="snt",
         name="voice",
         aliases=["vc"],
         invoke_without_command=True,
         ignore_extra=False,
     )
-    async def jsk_voice(self, ctx: ContextA):
+    async def snt_voice(self, ctx: ContextA):
         """
         Voice-related commands.
 
@@ -121,8 +121,8 @@ class VoiceFeature(Feature):
                 f"Connected to {voice.channel} with a custom VoiceProtocol: {voice}"
             )
 
-    @Feature.Command(parent="jsk_voice", name="join", aliases=["connect"])
-    async def jsk_vc_join(
+    @Feature.Command(parent="snt_voice", name="join", aliases=["connect"])
+    async def snt_vc_join(
         self,
         ctx: ContextA,
         *,
@@ -161,8 +161,8 @@ class VoiceFeature(Feature):
 
         await ctx.send(f"Connected to {destination.name}.")
 
-    @Feature.Command(parent="jsk_voice", name="disconnect", aliases=["dc"])
-    async def jsk_vc_disconnect(self, ctx: ContextA):
+    @Feature.Command(parent="snt_voice", name="disconnect", aliases=["dc"])
+    async def snt_vc_disconnect(self, ctx: ContextA):
         """
         Disconnects from the voice channel in this guild, if there is one.
         """
@@ -178,8 +178,8 @@ class VoiceFeature(Feature):
         else:
             await ctx.send(f"Can't disconnect a custom VoiceProtocol: {voice}")
 
-    @Feature.Command(parent="jsk_voice", name="stop")
-    async def jsk_vc_stop(self, ctx: ContextA):
+    @Feature.Command(parent="snt_voice", name="stop")
+    async def snt_vc_stop(self, ctx: ContextA):
         """
         Stops running an audio source, if there is one.
         """
@@ -195,8 +195,8 @@ class VoiceFeature(Feature):
         else:
             await ctx.send(f"Can't stop a custom VoiceProtocol: {voice}")
 
-    @Feature.Command(parent="jsk_voice", name="pause")
-    async def jsk_vc_pause(self, ctx: ContextA):
+    @Feature.Command(parent="snt_voice", name="pause")
+    async def snt_vc_pause(self, ctx: ContextA):
         """
         Pauses a running audio source, if there is one.
         """
@@ -215,8 +215,8 @@ class VoiceFeature(Feature):
         else:
             await ctx.send(f"Can't pause a custom VoiceProtocol: {voice}")
 
-    @Feature.Command(parent="jsk_voice", name="resume")
-    async def jsk_vc_resume(self, ctx: ContextA):
+    @Feature.Command(parent="snt_voice", name="resume")
+    async def snt_vc_resume(self, ctx: ContextA):
         """
         Resumes a running audio source, if there is one.
         """
@@ -235,8 +235,8 @@ class VoiceFeature(Feature):
         else:
             await ctx.send(f"Can't resume a custom VoiceProtocol: {voice}")
 
-    @Feature.Command(parent="jsk_voice", name="volume")
-    async def jsk_vc_volume(self, ctx: ContextA, *, percentage: float):
+    @Feature.Command(parent="snt_voice", name="volume")
+    async def snt_vc_volume(self, ctx: ContextA, *, percentage: float):
         """
         Adjusts the volume of an audio source if it is supported.
         """
@@ -263,8 +263,8 @@ class VoiceFeature(Feature):
         else:
             await ctx.send(f"Can't transform a custom VoiceProtocol: {voice}")
 
-    @Feature.Command(parent="jsk_voice", name="play", aliases=["play_local"])
-    async def jsk_vc_play(self, ctx: ContextA, *, uri: str):
+    @Feature.Command(parent="snt_voice", name="play", aliases=["play_local"])
+    async def snt_vc_play(self, ctx: ContextA, *, uri: str):
         """
         Plays audio direct from a URI.
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.shell
+synthhaku.shell
 ~~~~~~~~~~~~~
 
 Tools related to interacting directly with the shell.

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku
+synthhaku
 ~~~~~~~
 
 A discord.py extension including useful tools for bot development and debugging.
@@ -12,9 +12,9 @@ A discord.py extension including useful tools for bot development and debugging.
 """
 
 # pylint: disable=wildcard-import
-from jishaku.cog import *  # noqa: F401
-from jishaku.features.baseclass import Feature  # noqa: F401
-from jishaku.flags import Flags  # noqa: F401
-from jishaku.meta import *  # noqa: F401
+from synthhaku.cog import *  # noqa: F401
+from synthhaku.features.baseclass import Feature  # noqa: F401
+from synthhaku.flags import Flags  # noqa: F401
+from synthhaku.meta import *  # noqa: F401
 
-__all__ = ("Jishaku", "Feature", "Flags", "setup")
+__all__ = ("Feature", "Flags", "setup")

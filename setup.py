@@ -35,7 +35,7 @@ from setuptools import setup
 
 ROOT = pathlib.Path(__file__).parent
 
-with open(ROOT / "jishaku" / "meta.py", "r", encoding="utf-8") as f:
+with open(ROOT / "synthhaku" / "meta.py", "r", encoding="utf-8") as f:
     VERSION_MATCH = re.search(
         r"VersionInfo\(major=(\d+), minor=(\d+), micro=(\d+), .+\)",
         f.read(),
@@ -113,31 +113,31 @@ with open(ROOT / "README.md", "r", encoding="utf-8") as f:
 
 
 setup(
-    name="jishaku",
+    name="synthhaku",
     author="Devon (Gorialis) R",
-    url="https://github.com/Gorialis/jishaku",
+    url="https://github.com/Synth-discord-bot/synth-haku",
     license="MIT",
-    description="A discord.py extension including useful tools for bot development and debugging.",
+    description="A disnake extension including useful tools for bot development and debugging.",
     long_description=README,
     long_description_content_type="text/markdown",
     project_urls={
         "Documentation": "https://jishaku.readthedocs.io/en/latest/",
-        "Code": "https://github.com/Gorialis/jishaku",
-        "Issue tracker": "https://github.com/Gorialis/jishaku/issues",
+        "Code": "https://github.com/Synth-discord-bot/synth-haku",
+        "Issue tracker": "https://github.com/Synth-discord-bot/synth-haku/issues",
     },
     version=version,
-    packages=["jishaku", "jishaku.features", "jishaku.repl"],
+    packages=["synthhaku", "synthhaku.features", "synthhaku.repl"],
     include_package_data=True,
     install_requires=REQUIREMENTS,
     python_requires=">=3.8.0",
     extras_require=EXTRA_REQUIRES,
     entry_points={
         "console_scripts": [
-            "jishaku = jishaku.__main__:entrypoint",
+            "synthhaku = synthhaku.__main__:entrypoint",
         ],
     },
-    download_url=f"https://github.com/Gorialis/jishaku/archive/{version}.tar.gz",
-    keywords="jishaku discord.py discord cog repl extension",
+    download_url=f"https://github.com/Synth-discord-bot/synth-haku/archive/{version}.tar.gz",
+    keywords="synthhaku disnake disnake-ru cog repl extension",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Framework :: AsyncIO",

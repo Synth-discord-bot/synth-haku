@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku subclassing test 1
+synthhaku subclassing test 1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This is a valid extension file for discord.py intended to
@@ -16,17 +16,17 @@ This variant overrides behavior using a Feature.
 
 from disnake.ext import commands
 
-import jishaku
-from jishaku.types import ContextT
+import synthhaku
+from synthhaku.types import ContextT
 
 
-class ThirdPartyFeature(jishaku.Feature):
+class ThirdPartyFeature(synthhaku.Feature):
     """
     overriding feature for test
     """
 
-    @jishaku.Feature.Command(
-        name="jishaku", aliases=["jsk"], invoke_without_command=True, ignore_extra=False
+    @synthhaku.Feature.Command(
+        name="synthhaku", aliases=["jsk"], invoke_without_command=True, ignore_extra=False
     )
     async def jsk(self, ctx: ContextT):
         """
@@ -38,10 +38,10 @@ class ThirdPartyFeature(jishaku.Feature):
 
 
 class Magnet1(
-    ThirdPartyFeature, *jishaku.OPTIONAL_FEATURES, *jishaku.STANDARD_FEATURES
+    ThirdPartyFeature, *synthhaku.OPTIONAL_FEATURES, *synthhaku.STANDARD_FEATURES
 ):  # pylint: disable=too-few-public-methods
     """
-    The extended Jishaku cog
+    The extended synthhaku cog
     """
 
 

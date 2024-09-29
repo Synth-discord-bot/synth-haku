@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features.python
+synthhaku.features.python
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The synth-haku Python evaluation/execution commands.
+The synthhaku Python evaluation/execution commands.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -21,15 +21,15 @@ import typing
 
 import disnake
 
-from jishaku.codeblocks import Codeblock, codeblock_converter
-from jishaku.exception_handling import ReplResponseReactor
-from jishaku.features.baseclass import Feature
-from jishaku.flags import Flags
-from jishaku.formatting import MultilineFormatter
-from jishaku.functools import AsyncSender
-from jishaku.math import format_bargraph, format_stddev
-from jishaku.paginators import PaginatorInterface, WrappedPaginator, use_file_check
-from jishaku.repl import (
+from synthhaku.codeblocks import Codeblock, codeblock_converter
+from synthhaku.exception_handling import ReplResponseReactor
+from synthhaku.features.baseclass import Feature
+from synthhaku.flags import Flags
+from synthhaku.formatting import MultilineFormatter
+from synthhaku.functools import AsyncSender
+from synthhaku.math import format_bargraph, format_stddev
+from synthhaku.paginators import PaginatorInterface, WrappedPaginator, use_file_check
+from synthhaku.repl import (
     AsyncCodeExecutor,
     Scope,
     all_inspections,
@@ -38,7 +38,7 @@ from jishaku.repl import (
     get_adaptive_spans,
     get_var_dict_from_ctx,
 )
-from jishaku.types import ContextA
+from synthhaku.types import ContextA
 
 try:
     import line_profiler  # type: ignore
@@ -70,8 +70,8 @@ class PythonFeature(Feature):
             return self._scope
         return Scope()
 
-    @Feature.Command(parent="jsk", name="retain")
-    async def jsk_retain(self, ctx: ContextA, *, toggle: bool = None):  # type: ignore
+    @Feature.Command(parent="snt", name="retain")
+    async def snt_retain(self, ctx: ContextA, *, toggle: bool = None):  # type: ignore
         """
         Turn variable retention for REPL on or off.
 
@@ -102,11 +102,11 @@ class PythonFeature(Feature):
             "Variable retention is OFF. Future REPL sessions will dispose their scope when done."
         )
 
-    async def jsk_python_result_handling(
+    async def snt_python_result_handling(
         self, ctx: ContextA, result: typing.Any
     ):  # pylint: disable=too-many-return-statements
         """
-        Determines what is done with a result when it comes out of jsk py.
+        Determines what is done with a result when it comes out of snt py.
         This allows you to override how this is done without having to rewrite the command itself.
         What you return is what gets stored in the temporary _ variable.
         """
@@ -160,7 +160,7 @@ class PythonFeature(Feature):
         interface = PaginatorInterface(ctx.bot, paginator, owner=ctx.author)
         return await interface.send_to(ctx)
 
-    def jsk_python_get_convertables(
+    def snt_python_get_convertables(
         self, ctx: ContextA
     ) -> typing.Tuple[typing.Dict[str, typing.Any], typing.Dict[str, str]]:
         """
@@ -189,8 +189,8 @@ class PythonFeature(Feature):
 
         return arg_dict, convertables
 
-    @Feature.Command(parent="jsk", name="py", aliases=["python"])
-    async def jsk_python(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
+    @Feature.Command(parent="snt", name="py", aliases=["python"])
+    async def snt_python(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
         """
         Direct evaluation of Python code.
         """
@@ -198,7 +198,7 @@ class PythonFeature(Feature):
         if typing.TYPE_CHECKING:
             argument: Codeblock = argument  # type: ignore
 
-        arg_dict, convertables = self.jsk_python_get_convertables(ctx)
+        arg_dict, convertables = self.snt_python_get_convertables(ctx)
         scope = self.scope
 
         try:
@@ -219,17 +219,17 @@ class PythonFeature(Feature):
 
                         self.last_result = result
 
-                        send(await self.jsk_python_result_handling(ctx, result))
+                        send(await self.snt_python_result_handling(ctx, result))
 
         finally:
             scope.clear_intersection(arg_dict)
 
     @Feature.Command(
-        parent="jsk",
+        parent="snt",
         name="py_inspect",
         aliases=["pyi", "python_inspect", "pythoninspect"],
     )
-    async def jsk_python_inspect(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
+    async def snt_python_inspect(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
         """
         Evaluation of Python code with inspect information.
         """
@@ -237,7 +237,7 @@ class PythonFeature(Feature):
         if typing.TYPE_CHECKING:
             argument: Codeblock = argument  # type: ignore
 
-        arg_dict, convertables = self.jsk_python_get_convertables(ctx)
+        arg_dict, convertables = self.snt_python_get_convertables(ctx)
         scope = self.scope
 
         try:
@@ -304,8 +304,8 @@ class PythonFeature(Feature):
 
     if line_profiler is not None:
 
-        @Feature.Command(parent="jsk", name="timeit")
-        async def jsk_timeit(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
+        @Feature.Command(parent="snt", name="timeit")
+        async def snt_timeit(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
             """
             Times and produces a relative timing report for a block of code.
             """
@@ -313,7 +313,7 @@ class PythonFeature(Feature):
             if typing.TYPE_CHECKING:
                 argument: Codeblock = argument  # type: ignore
 
-            arg_dict, convertables = self.jsk_python_get_convertables(ctx)
+            arg_dict, convertables = self.snt_python_get_convertables(ctx)
             scope = self.scope
 
             try:
@@ -355,7 +355,7 @@ class PythonFeature(Feature):
                                     self.last_result = result
 
                                     send(
-                                        await self.jsk_python_result_handling(
+                                        await self.snt_python_result_handling(
                                             ctx, result
                                         )
                                     )
@@ -430,8 +430,8 @@ class PythonFeature(Feature):
             finally:
                 scope.clear_intersection(arg_dict)
 
-    @Feature.Command(parent="jsk", name="dis", aliases=["disassemble"])
-    async def jsk_disassemble(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
+    @Feature.Command(parent="snt", name="dis", aliases=["disassemble"])
+    async def snt_disassemble(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
         """
         Disassemble Python code into bytecode.
         """
@@ -458,8 +458,8 @@ class PythonFeature(Feature):
                 interface = PaginatorInterface(ctx.bot, paginator, owner=ctx.author)
                 await interface.send_to(ctx)
 
-    @Feature.Command(parent="jsk", name="ast")
-    async def jsk_ast(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
+    @Feature.Command(parent="snt", name="ast")
+    async def snt_ast(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
         """
         Disassemble Python code into AST.
         """
@@ -478,8 +478,8 @@ class PythonFeature(Feature):
 
     if sys.version_info >= (3, 11):
 
-        @Feature.Command(parent="jsk", name="specialist")
-        async def jsk_specialist(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
+        @Feature.Command(parent="snt", name="specialist")
+        async def snt_specialist(self, ctx: ContextA, *, argument: codeblock_converter):  # type: ignore
             """
             Direct evaluation of Python code.
             """
@@ -487,7 +487,7 @@ class PythonFeature(Feature):
             if typing.TYPE_CHECKING:
                 argument: Codeblock = argument  # type: ignore
 
-            arg_dict, convertables = self.jsk_python_get_convertables(ctx)
+            arg_dict, convertables = self.snt_python_get_convertables(ctx)
             scope = self.scope
 
             try:
@@ -508,7 +508,7 @@ class PythonFeature(Feature):
 
                             self.last_result = result
 
-                            send(await self.jsk_python_result_handling(ctx, result))
+                            send(await self.snt_python_result_handling(ctx, result))
 
                         formatter = MultilineFormatter(argument.content)
 

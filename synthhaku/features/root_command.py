@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features.root_command
+synthhaku.features.root_command
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The synth-haku root command.
+The synthhaku root command.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -22,12 +22,12 @@ except ImportError:
 import disnake
 from disnake.ext import commands
 
-from jishaku.features.baseclass import Feature
-from jishaku.flags import Flags
-from jishaku.math import natural_size
-from jishaku.modules import package_version
-from jishaku.paginators import PaginatorInterface
-from jishaku.types import ContextA
+from synthhaku.features.baseclass import Feature
+from synthhaku.flags import Flags
+from synthhaku.math import natural_size
+from synthhaku.modules import package_version
+from synthhaku.paginators import PaginatorInterface
+from synthhaku.types import ContextA
 
 try:
     import psutil
@@ -37,19 +37,19 @@ except ImportError:
 
 class RootCommand(Feature):
     """
-    Feature containing the root jsk command
+    Feature containing the root snt command
     """
 
     def __init__(self, *args: typing.Any, **kwargs: typing.Any):
         super().__init__(*args, **kwargs)
-        self.jsk.hidden = Flags.HIDE  # type: ignore
+        self.snt.hidden = Flags.HIDE  # type: ignore
 
     @Feature.Command(
-        name="synth-haku", aliases=["jsk"], invoke_without_command=True, ignore_extra=False
+        name="synthhaku", aliases=["snt"], invoke_without_command=True, ignore_extra=False
     )
-    async def jsk(self, ctx: ContextA):
+    async def snt(self, ctx: ContextA):
         """
-        The Jishaku debug and diagnostic commands.
+        The synthhaku debug and diagnostic commands.
 
         This command on its own gives a status brief.
         All other functionality is within its subcommands.
@@ -71,7 +71,7 @@ class RootCommand(Feature):
             dist_version = f"unknown `{disnake.__version__}`"
 
         summary = [
-            f"Jishaku v{package_version('synth-haku')}, {dist_version}, "
+            f"synthhaku v{package_version('synthhaku')}, {dist_version}, "
             f"`Python {sys.version}` on `{sys.platform}`".replace("\n", ""),
             f"Module was loaded <t:{self.load_time.timestamp():.0f}:R>, "
             f"cog was loaded <t:{self.start_time.timestamp():.0f}:R>.",
@@ -162,36 +162,36 @@ class RootCommand(Feature):
         await ctx.send("\n".join(summary))
 
     # pylint: disable=no-member
-    @Feature.Command(parent="jsk", name="hide")
-    async def jsk_hide(self, ctx: ContextA):
+    @Feature.Command(parent="snt", name="hide")
+    async def snt_hide(self, ctx: ContextA):
         """
-        Hides Jishaku from the help command.
-        """
-
-        if self.jsk.hidden:  # type: ignore
-            return await ctx.send("Jishaku is already hidden.")
-
-        self.jsk.hidden = True  # type: ignore
-        await ctx.send("Jishaku is now hidden.")
-
-    @Feature.Command(parent="jsk", name="show")
-    async def jsk_show(self, ctx: ContextA):
-        """
-        Shows Jishaku in the help command.
+        Hides synthhaku from the help command.
         """
 
-        if not self.jsk.hidden:  # type: ignore
-            return await ctx.send("Jishaku is already visible.")
+        if self.snt.hidden:  # type: ignore
+            return await ctx.send("synthhaku is already hidden.")
 
-        self.jsk.hidden = False  # type: ignore
-        await ctx.send("Jishaku is now visible.")
+        self.snt.hidden = True  # type: ignore
+        await ctx.send("synthhaku is now hidden.")
+
+    @Feature.Command(parent="snt", name="show")
+    async def snt_show(self, ctx: ContextA):
+        """
+        Shows synthhaku in the help command.
+        """
+
+        if not self.snt.hidden:  # type: ignore
+            return await ctx.send("synthhaku is already visible.")
+
+        self.snt.hidden = False  # type: ignore
+        await ctx.send("synthhaku is now visible.")
 
     # pylint: enable=no-member
 
-    @Feature.Command(parent="jsk", name="tasks")
-    async def jsk_tasks(self, ctx: ContextA):
+    @Feature.Command(parent="snt", name="tasks")
+    async def snt_tasks(self, ctx: ContextA):
         """
-        Shows the currently running synth-haku tasks.
+        Shows the currently running synthhaku tasks.
         """
 
         if not self.tasks:
@@ -214,8 +214,8 @@ class RootCommand(Feature):
         interface = PaginatorInterface(ctx.bot, paginator, owner=ctx.author)
         return await interface.send_to(ctx)
 
-    @Feature.Command(parent="jsk", name="cancel")
-    async def jsk_cancel(self, ctx: ContextA, *, index: typing.Union[int, str]):
+    @Feature.Command(parent="snt", name="cancel")
+    async def snt_cancel(self, ctx: ContextA, *, index: typing.Union[int, str]):
         """
         Cancels a task with the given index.
 

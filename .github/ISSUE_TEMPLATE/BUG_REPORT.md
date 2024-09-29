@@ -30,6 +30,6 @@ about: Report broken or incorrect behavior or functionality
 
 ## System information
 
-<!-- Post information both about your jishaku AND discord.py version here -->
+<!-- Post information both about your synthhaku AND discord.py version here -->
 <!-- You can get information about discord.py by running `python -m discord -v` -->
-<!-- You can get your jishaku version by running `pip show jishaku` -->
+<!-- You can get your synthhaku version by running `pip show synthhaku` -->

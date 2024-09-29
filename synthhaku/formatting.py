@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.formatting
+synthhaku.formatting
 ~~~~~~~~~~~~~~~~~~~
 
 Advanced formatting constructs

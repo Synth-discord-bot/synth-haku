@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.modules
+synthhaku.modules
 ~~~~~~~~~~~~~~
 
 Functions for managing and searching modules.
@@ -18,7 +18,7 @@ import typing
 from braceexpand import braceexpand
 from disnake.ext import commands
 
-from jishaku.types import BotT, ContextA
+from synthhaku.types import BotT, ContextA
 
 __all__ = (
     "find_extensions_in",

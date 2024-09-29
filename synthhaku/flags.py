@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.flags
+synthhaku.flags
 ~~~~~~~~~~~~~~
 
 The Jishaku cog base, which contains most of the actual functionality of Jishaku.
@@ -18,7 +18,7 @@ import typing
 
 import disnake
 
-from jishaku.types import ContextA
+from synthhaku.types import ContextA
 
 ENABLED_SYMBOLS = ("true", "t", "yes", "y", "on", "1")
 DISABLED_SYMBOLS = ("false", "f", "no", "n", "off", "0")
@@ -144,7 +144,7 @@ class Flags(metaclass=FlagMeta):  # pylint: disable=too-few-public-methods
     You can override these either through your environment, e.g.:
         export JISHAKU_HIDE=1
     Or you can override them programmatically:
-        synth-haku.Flags.HIDE = True
+        synthhaku.Flags.HIDE = True
     """
 
     # Flag to indicate the Jishaku base command group should be hidden

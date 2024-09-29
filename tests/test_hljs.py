@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku.hljs test
+synthhaku.hljs test
 ~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2021 Devon (Gorialis) R
@@ -11,7 +11,7 @@ jishaku.hljs test
 
 import pytest
 
-from jishaku.hljs import get_language
+from synthhaku.hljs import get_language
 
 
 @pytest.mark.parametrize(

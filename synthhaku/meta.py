@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.meta
+synthhaku.meta
 ~~~~~~~~~~~~
 
-Meta information about synth-haku.
+Meta information about synthhaku.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -40,7 +40,7 @@ __author__ = "Gorialis"
 __copyright__ = "Copyright 2021 Devon (Gorialis) R"
 __docformat__ = "restructuredtext en"
 __license__ = "MIT"
-__title__ = "synth-haku"
+__title__ = "synthhaku"
 __version__ = ".".join(
     map(str, (version_info.major, version_info.minor, version_info.micro))
 )

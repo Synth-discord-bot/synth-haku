@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.cog
+synthhaku.cog
 ~~~~~~~~~~~~
 
 The Jishaku debugging and diagnostics cog implementation.
@@ -16,15 +16,15 @@ import typing
 
 from disnake.ext import commands
 
-from synth-haku.features.baseclass import Feature
-from jishaku.features.filesystem import FilesystemFeature
-from jishaku.features.guild import GuildFeature
-from jishaku.features.invocation import InvocationFeature
-from jishaku.features.management import ManagementFeature
-from jishaku.features.python import PythonFeature
-from jishaku.features.root_command import RootCommand
-from jishaku.features.shell import ShellFeature
-from jishaku.features.voice import VoiceFeature
+from synthhaku.features.baseclass import Feature
+from synthhaku.features.filesystem import FilesystemFeature
+from synthhaku.features.guild import GuildFeature
+from synthhaku.features.invocation import InvocationFeature
+from synthhaku.features.management import ManagementFeature
+from synthhaku.features.python import PythonFeature
+from synthhaku.features.root_command import RootCommand
+from synthhaku.features.shell import ShellFeature
+from synthhaku.features.voice import VoiceFeature
 
 __all__ = (
     "Jishaku",
@@ -62,7 +62,7 @@ class Jishaku(*OPTIONAL_FEATURES, *STANDARD_FEATURES):  # type: ignore  # pylint
 
 async def async_setup(bot: commands.Bot):
     """
-    The async setup function defining the synth-haku.cog and synth-haku extensions.
+    The async setup function defining the synthhaku.cog and synthhaku extensions.
     """
 
     bot.add_cog(Jishaku(bot=bot))  # type: ignore
@@ -70,7 +70,7 @@ async def async_setup(bot: commands.Bot):
 
 def setup(bot: commands.Bot):  # pylint: disable=inconsistent-return-statements
     """
-    The setup function defining the synth-haku.cog and synth-haku extensions.
+    The setup function defining the synthhaku.cog and synthhaku extensions.
     """
 
     if inspect.iscoroutinefunction(bot.add_cog):

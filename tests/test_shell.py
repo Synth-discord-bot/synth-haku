@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku.shell test
+synthhaku.shell test
 ~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2021 Devon (Gorialis) R
@@ -14,7 +14,7 @@ import sys
 
 import pytest
 
-from jishaku.shell import ShellReader
+from synthhaku.shell import ShellReader
 
 
 @pytest.mark.asyncio

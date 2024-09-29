@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku ast tree generation test
+synthhaku ast tree generation test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2022 Devon (Gorialis) R
@@ -11,7 +11,7 @@ jishaku ast tree generation test
 
 import inspect
 
-from jishaku.repl.disassembly import create_tree
+from synthhaku.repl.disassembly import create_tree
 
 
 def test_ast_missing_fields():

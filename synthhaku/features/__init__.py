@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features
+synthhaku.features
 ~~~~~~~~~~~~~~~~~
 
 The namespace containing the Feature components that go into the final Jishaku cog class.

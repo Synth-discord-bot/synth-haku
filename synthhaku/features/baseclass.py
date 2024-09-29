@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-synth-haku.features.baseclass
+synthhaku.features.baseclass
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The base Feature class that serves as the superclass of all feature components.
@@ -20,7 +20,7 @@ from datetime import datetime, timezone, UTC
 from disnake.ext import commands
 from typing_extensions import Concatenate, ParamSpec
 
-from jishaku.types import BotT, ContextA
+from synthhaku.types import BotT, ContextA
 
 __all__ = ("Feature", "CommandTask")
 
@@ -53,7 +53,7 @@ class CommandTask(typing.NamedTuple):
 
 class Feature(commands.Cog):
     """
-    Baseclass defining feature components of the synth-haku cog.
+    Baseclass defining feature components of the synthhaku cog.
     """
 
     class Command(
@@ -223,7 +223,7 @@ class Feature(commands.Cog):
     @contextlib.contextmanager
     def submit(self, ctx: ContextA):
         """
-        A context-manager that submits the current task to synth-haku's task list
+        A context-manager that submits the current task to synthhaku's task list
         and removes it afterwards.
 
         Parameters

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku.hljs test
+synthhaku.hljs test
 ~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2021 Devon (Gorialis) R
@@ -14,7 +14,7 @@ import typing
 
 import pytest
 
-from jishaku.functools import executor_function
+from synthhaku.functools import executor_function
 
 
 def sig(*args, **kwargs):
